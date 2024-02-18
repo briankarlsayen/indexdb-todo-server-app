@@ -34,11 +34,12 @@ exports.updateTodo = async (req, res, next) => {
   try {
     const todo = await Todo.findOneAndUpdate(
       { _id: id },
-      { label, isChecked }
+      { label, isChecked },
+      { new: true }
     ).exec();
     if (!todo)
       return res.status(422).json({ message: "Unable to update todo" });
-    return res.status(201).json({ message: "Successfully updated" });
+    return res.status(201).json(todo);
   } catch (err) {
     next(err);
   }
